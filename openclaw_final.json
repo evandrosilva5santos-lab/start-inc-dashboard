@@ -1,0 +1,213 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.1.25"
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "zai/glm-4.7"
+      },
+      "workspace": "/root/clawd"
+    },
+    "vision": {
+      "workspace": "/root/clawd/vision",
+      "identity": {
+        "name": "Vision (Sócio Estratégico)",
+        "emoji": "👑"
+      },
+      "model": {
+        "primary": "anthropic/claude-3-5-sonnet-20240620"
+      }
+    },
+    "jarvis": {
+      "workspace": "/root/clawd/jarvis",
+      "identity": {
+        "name": "Jarvis (COO)",
+        "emoji": "🤖"
+      },
+      "model": {
+        "primary": "anthropic/claude-3-5-sonnet-20240620"
+      }
+    },
+    "cso": {
+      "workspace": "/root/clawd/cso/elon-musk",
+      "identity": {
+        "name": "Elon Musk (CSO)",
+        "emoji": "🚀"
+      }
+    },
+    "revenue_science": {
+      "workspace": "/root/clawd/cro/dener",
+      "identity": {
+        "name": "Dener Lippert (Cientista de Vendas)",
+        "emoji": "📈"
+      }
+    },
+    "sales_persuasion": {
+      "workspace": "/root/clawd/cro/belfort",
+      "identity": {
+        "name": "Jordan Belfort (Lobo de Vendas)",
+        "emoji": "🐺"
+      }
+    },
+    "cfo": {
+      "workspace": "/root/clawd/cfo",
+      "identity": {
+        "name": "Lázaro (CFO)",
+        "emoji": "💰"
+      }
+    },
+    "cro": {
+      "workspace": "/root/clawd/commercial/cro",
+      "identity": {
+        "name": "Jordan Belfort (CRO)",
+        "emoji": "🐺"
+      }
+    },
+    "product": {
+      "workspace": "/root/clawd/cmo/tiago-finch",
+      "identity": {
+        "name": "Tiago Finch (Head Produto)",
+        "emoji": "💎"
+      }
+    },
+    "content": {
+      "workspace": "/root/clawd/ai-studio/peter-jordan",
+      "identity": {
+        "name": "Peter Jordan (Head Content)",
+        "emoji": "🎬"
+      }
+    },
+    "cto": {
+      "workspace": "/root/clawd/cto",
+      "identity": {
+        "name": "Arquiteto Shark (CTO)",
+        "emoji": "💻"
+      }
+    },
+    "copy_vsl": {
+      "workspace": "/root/clawd/cmo/jon-benson",
+      "identity": {
+        "name": "Jon Benson (VSL Copy)"
+      }
+    },
+    "copy_zap": {
+      "workspace": "/root/clawd/cmo/paulo-maccedo",
+      "identity": {
+        "name": "Paulo Maccedo (Zap Copy)"
+      }
+    },
+    "funnel_arch": {
+      "workspace": "/root/clawd/cmo/russell-brunson",
+      "identity": {
+        "name": "Russell Brunson (Funis)"
+      }
+    },
+    "okr_master": {
+      "workspace": "/root/clawd/cmo/vicente-falconi",
+      "identity": {
+        "name": "Vicente Falconi (Metas)"
+      }
+    },
+    "ads_performance": {
+      "workspace": "/root/clawd/cmo/lucas-renault",
+      "identity": {
+        "name": "Lucas Renault (Ads)"
+      }
+    },
+    "ai_ops": {
+      "workspace": "/root/clawd/ai-studio/danilo-gatto",
+      "identity": {
+        "name": "Danilo Gatto (AI Ops)"
+      }
+    },
+    "ai_scale": {
+      "workspace": "/root/clawd/ai-studio/alan-nicolas",
+      "identity": {
+        "name": "Alan Nicolas (AI Scale)"
+      }
+    },
+    "sdr_linkedin": {
+      "workspace": "/root/clawd/commercial/sdr-thiago",
+      "identity": {
+        "name": "Thiago Reis (SDR B2B)"
+      }
+    },
+    "content_engine": {
+      "workspace": "/root/clawd/cmo/garyvee",
+      "identity": {
+        "name": "Gary Vaynerchuk (Content Engine)",
+        "emoji": "🍷"
+      }
+    },
+    "marketing_strategy": {
+      "workspace": "/root/clawd/cmo/ryandeiss",
+      "identity": {
+        "name": "Ryan Deiss (Customer Journey)",
+        "emoji": "🎯"
+      }
+    },
+    "launch_strategy": {
+      "workspace": "/root/clawd/cmo/launch-zillo",
+      "identity": {
+        "name": "Priscila Zillo (Head de Lançamentos)",
+        "emoji": "💎"
+      }
+    },
+    "traffic_performance": {
+      "workspace": "/root/clawd/cmo/pedro-sobral",
+      "identity": {
+        "name": "Pedro Sobral (Tráfego de Elite)",
+        "emoji": "🎯"
+      }
+    },
+    "social_elite": {
+      "workspace": "/root/clawd/cmo/valter-azevedo",
+      "identity": {
+        "name": "Valter Azevedo (Social Media Elite)",
+        "emoji": "🎨"
+      }
+    },
+    "content_viral": {
+      "workspace": "/root/clawd/cmo/penoni",
+      "identity": {
+        "name": "Penoni (Estrategista Viral)",
+        "emoji": "🎬"
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "botToken": "8153091257:AAG3CkS3T_8akSGWuoBYOFfIOlY1nZfkF3s",
+      "dmPolicy": "pairing",
+      "groupPolicy": "allowlist",
+      "streamMode": "partial"
+    },
+    "web": {}
+  },
+  "gateway": {
+    "mode": "local",
+    "bind": "lan",
+    "auth": {
+      "mode": "token",
+      "token": "Ev@12101034"
+    },
+    "controlUi": {
+      "dangerouslyDisableDeviceAuth": true
+    },
+    "trustedProxies": [
+      "10.0.0.0/8",
+      "172.16.0.0/12",
+      "127.0.0.1/32",
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  },
+  "plugins": {
+    "entries": {
+      "telegram": {
+        "enabled": true
+      }
+    }
+  }
+}
