@@ -135,6 +135,26 @@ export default function Dashboard() {
   useEffect(() => {
     fetchAgents()
     fetchCandidates()
+
+    // Realtime subscriptions
+    const agentsChannel = supabase
+      .channel('agents-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'agents' }, () => {
+        fetchAgents()
+      })
+      .subscribe()
+
+    const candidatesChannel = supabase
+      .channel('candidates-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'candidates' }, () => {
+        fetchCandidates()
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(agentsChannel)
+      supabase.removeChannel(candidatesChannel)
+    }
   }, [])
 
   useEffect(() => {
