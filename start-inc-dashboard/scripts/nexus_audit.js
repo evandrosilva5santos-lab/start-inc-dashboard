@@ -22,7 +22,8 @@ async function run() {
     if (!a.decisions || a.decisions.length === 0) missing.push('decisions');
     if (!a.inputs || a.inputs.length === 0) missing.push('inputs');
     if (!a.outputs || a.outputs.length === 0) missing.push('outputs');
-    
+    if (!a.knowledge_base || a.knowledge_base.length === 0) missing.push('knowledge_base');
+
     return { name: a.name, level: a.level, missingCount: missing.length, missingFields: missing };
   });
 

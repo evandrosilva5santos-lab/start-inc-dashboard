@@ -209,22 +209,30 @@ export default function Dashboard() {
   }
 
   function getDept(agent: Agent) {
-    // 1. Prioridade absoluta para o campo do banco de dados
-    if (agent.department) return agent.department;
+    const deptAttr = (agent.department || '').toLowerCase();
+    const roleAttr = (agent.role || '').toLowerCase();
+    const nameAttr = (agent.name || '').toLowerCase();
 
-    // 2. Fallback para nomes específicos (Alto Comando)
-    const name = (agent.name || '').toLowerCase()
-    if (name === 'vision' || name === 'jarvis') return "Alto comando"
+    // High Command
+    if (nameAttr === 'vision' || nameAttr === 'jarvis' || nameAttr === 'evandro') return "Strategy";
 
-    // 3. Lógica baseada em cargo (Legacy/Fallback)
-    const role = (agent.role || '').toLowerCase()
-    if (role.includes('ceo') || role.includes('board') || role.includes('cso') || role.includes('coo')) return "Estratégia"
-    if (role.includes('marketing') || role.includes('revenue') || role.includes('vendas') || role.includes('growth') || role.includes('receita') || role.includes('tráfego') || role.includes('copy')) return "Receita"
-    if (role.includes('tech') || role.includes('product') || role.includes('ai') || role.includes('dados') || role.includes('automação') || role.includes('vídeo') || role.includes('produto')) return "Produto"
-    if (role.includes('people') || role.includes('hr') || role.includes('rh') || role.includes('cultura') || role.includes('recrutamento') || role.includes('psicologia')) return "RH"
-    if (role.includes('finance') || role.includes('cfo') || role.includes('investment') || role.includes('financeiro')) return "Finanças"
+    // Explicit Department Mapping
+    if (deptAttr.includes('estratégia') || deptAttr.includes('strategy')) return "Strategy";
+    if (deptAttr.includes('marketing') || deptAttr.includes('vendas') || deptAttr.includes('receita') || deptAttr.includes('revenue') || deptAttr.includes('lançamentos') || deptAttr.includes('growth')) return "Revenue";
+    if (deptAttr.includes('product') || deptAttr.includes('produto') || deptAttr.includes('copywriting') || deptAttr.includes('conteúdo')) return "Product";
+    if (deptAttr.includes('tech') || deptAttr.includes('tecnologia') || deptAttr.includes('ia') || deptAttr.includes('dados')) return "Tech";
+    if (deptAttr.includes('people') || deptAttr.includes('rh') || deptAttr.includes('cultura')) return "People";
+    if (deptAttr.includes('finance') || deptAttr.includes('finanças') || deptAttr.includes('conselho')) return "Finance";
 
-    return "Estratégia"
+    // Role-based Fallback
+    if (roleAttr.includes('ceo') || roleAttr.includes('cso') || roleAttr.includes('coo') || roleAttr.includes('diretor')) return "Strategy";
+    if (roleAttr.includes('copy') || roleAttr.includes('vsl') || roleAttr.includes('funil') || roleAttr.includes('anúncios') || roleAttr.includes('tráfego')) return "Revenue";
+    if (roleAttr.includes('produto') || roleAttr.includes('product') || roleAttr.includes('ux') || roleAttr.includes('design')) return "Product";
+    if (roleAttr.includes('cto') || roleAttr.includes('dev') || roleAttr.includes('arquiteto') || roleAttr.includes('ia')) return "Tech";
+    if (roleAttr.includes('rh') || roleAttr.includes('psicologia') || roleAttr.includes('cultura')) return "People";
+    if (roleAttr.includes('cfo') || roleAttr.includes('finance') || roleAttr.includes('macro')) return "Finance";
+
+    return "Strategy";
   }
 
   const translateLevel = (level: string) => {
@@ -289,77 +297,42 @@ export default function Dashboard() {
   // --- RENDER HELPERS ---
   const renderAgentCard = (agent: Agent) => {
     const dept = getDept(agent)
+    let accentColor = '#38bdf8' // default blue
+    let accentClass = 'cyan'
 
-    // --- ESTILIZAÇÃO POR HIERARQUIA (MODIFICADA) ---
-    // Alto Comando (Vision/Jarvis): Cyan
-    // Estratégico (Diretores): ROXO (Purple-500)
-    // Tático (Heads): LARANJA/AMBAR (Orange-500) -> Mudei de Azul para Laranja, para diferenciar bem
-    // Operacional: VERMELHO/ROSADO (Rose-500) -> Ou manter Verde? O usuário disse 'outra cor'.
-    // Vamos de:
-    // Estratégico: Purple (Roxo Nobre)
-    // Tático: Amber (Ouro/Âmbar) - HEADS PRECISAM BRILHAR
-    // Operacional: Blue (Operação Padrão)
-
-    let borderClass = ''
-    let bgHoverClass = ''
-
-    if (dept === 'Alto comando') {
-      borderClass = 'border-l-4 border-cyan-400 bg-cyan-900/40'
-      bgHoverClass = 'hover:bg-cyan-800/60 shadow-[0_0_15px_rgba(34,211,238,0.1)]'
-    } else {
-      if (agent.level === 'strategic') {
-        // ESTRATÉGICO = ROXO (Com fundo levemente roxo)
-        borderClass = 'border-l-4 border-purple-500 bg-purple-900/20 shadow-[0_0_10px_rgba(168,85,247,0.1)]'
-      } else if (agent.level === 'tactical') {
-        // TÁTICO = AZUL (Com fundo levemente azul, bem diferente do Roxo)
-        borderClass = 'border-l-4 border-blue-500 bg-blue-900/20 shadow-[0_0_5px_rgba(59,130,246,0.1)]'
-      } else {
-        // OPERACIONAL = SLATE (Fundo mais escuro/neutro)
-        borderClass = 'border-l-4 border-slate-600 bg-slate-800/40 shadow-none'
-      }
-      bgHoverClass = 'border border-white/5 hover:border-white/20 hover:bg-opacity-40'
+    switch (dept) {
+      case 'Strategy': accentColor = '#a855f7'; accentClass = 'purple'; break;
+      case 'Revenue': accentColor = '#22c55e'; accentClass = 'green'; break;
+      case 'Product': accentColor = '#facc15'; accentClass = 'yellow'; break;
+      case 'Tech': accentColor = '#38bdf8'; accentClass = 'blue'; break;
+      case 'People': accentColor = '#f43f5e'; accentClass = 'rose'; break;
+      case 'Finance': accentColor = '#fb923c'; accentClass = 'orange'; break;
     }
 
-    // Parse Role: "CSO - Diretor de Estratégia" -> ["CSO", "Diretor de Estratégia"]
-    // Or "Head de Recrutamento" -> ["Head", "Recrutamento"] (Simple fallback logic)
-    let roleShort = ''
-    let roleDesc = ''
-
-    const role = agent.role || ''
-    if (role.includes(' - ')) {
-      const parts = role.split(' - ')
-      roleShort = parts[0]
-      roleDesc = parts[1]
-    } else if (role.toLowerCase().startsWith('head de ')) {
-      roleShort = 'HEAD'
-      roleDesc = role.replace('Head de ', '')
-    } else {
-      // Fallback for mentors or simple roles
-      roleShort = role.split(' ')[0].toUpperCase().substring(0, 8) // First word or cropped
-      roleDesc = role
+    const levelStyles: any = {
+      strategic: `border-${accentClass}-500/50 bg-${accentClass}-900/10 shadow-[0_0_15px_rgba(var(--accent-rgb),0.1)]`,
+      tactical: `border-${accentClass}-500/30 bg-slate-900/40`,
+      operational: `border-slate-800 bg-slate-900/20 opacity-80 hover:opacity-100`
     }
 
-    // Role Color Text
-    let roleColorClass = ''
-    if (dept === 'Alto comando') roleColorClass = 'text-cyan-400'
-    else if (agent.level === 'strategic') roleColorClass = 'text-purple-400'
-    else if (agent.level === 'tactical') roleColorClass = 'text-blue-400' // Blue for Heads
-    else roleColorClass = 'text-slate-400'
+    const roleShort = agent.role?.split(' - ')[0] || agent.role;
 
     return (
       <div
         key={agent.id}
         id={`agent-${agent.id}`}
-        className={`rounded-xl p-4 cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300 relative z-10 w-full mb-3 ${borderClass} ${bgHoverClass}`}
+        className={`rounded-xl p-3 border cursor-pointer hover:transform hover:-translate-y-1 transition-all duration-300 relative z-10 w-full backdrop-blur-md ${levelStyles[agent.level] || levelStyles.operational}`}
         onClick={() => setModalData({ type: 'agent', data: agent })}
       >
-        <div className="flex items-center gap-4">
-          <div className="text-3xl filter drop-shadow-md">{agent.emoji || '🤖'}</div>
-          <div className="flex flex-col overflow-hidden">
-            <div className="font-extrabold text-base text-white tracking-tight leading-tight mb-0.5">{agent.name}</div>
-            <div className={`font-black text-xs tracking-widest uppercase mb-0.5 ${roleColorClass}`}>{roleShort}</div>
-            <div className="text-[10px] text-slate-400 font-medium uppercase tracking-wide opacity-80 truncate">{roleDesc}</div>
+        <div className="flex items-center gap-3">
+          <div className="text-2xl brightness-110 drop-shadow-md">{agent.emoji || '🤖'}</div>
+          <div className="flex flex-col min-w-0">
+            <div className="font-bold text-sm text-white truncate leading-tight tracking-tight">{agent.name}</div>
+            <div className="text-[10px] font-black uppercase tracking-wider opacity-60 mt-0.5 truncate">
+              {roleShort}
+            </div>
           </div>
+          <div className={`absolute -right-1 -top-1 w-2 h-2 rounded-full`} style={{ backgroundColor: accentColor, boxShadow: `0 0 8px ${accentColor}` }}></div>
         </div>
       </div>
     )
@@ -368,12 +341,12 @@ export default function Dashboard() {
   const renderMentorCard = (agent: Agent, isSecret: boolean) => (
     <div
       key={agent.id}
-      className={`relative group bg-slate-900/40 border ${isSecret ? 'border-purple-500/30' : 'border-slate-700'} rounded-2xl p-6 hover:bg-slate-800 transition-all cursor-pointer`}
+      className={`relative group bg-slate-900/40 border ${isSecret ? 'border-purple-500/30' : 'border-slate-800'} rounded-2xl p-6 hover:bg-slate-800 transition-all cursor-pointer backdrop-blur-md`}
       onClick={() => setModalData({ type: 'agent', data: agent })}
     >
       {isSecret && (
         <div className="absolute top-2 right-2 text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded border border-purple-500/20">
-          ACESSO EXCLUSIVO VISION
+          SECRET VISION ACCESS
         </div>
       )}
       <div className="flex flex-col items-center text-center gap-4">
@@ -384,150 +357,116 @@ export default function Dashboard() {
           <h3 className="font-bold text-lg text-white">{agent.name}</h3>
           <p className="text-xs text-blue-400 font-mono mt-1 uppercase tracking-wider">{agent.role}</p>
         </div>
-        <p className="text-sm text-slate-400 line-clamp-2">{agent.profile || 'Mentor Especialista'}</p>
-
-        <button className="mt-2 w-full py-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-xs font-bold rounded-lg border border-blue-500/20">
-          CONSULTAR MENTOR
-        </button>
+        <p className="text-sm text-slate-400 line-clamp-2">{agent.profile || 'Expert Advisor'}</p>
       </div>
     </div>
   )
 
-  const renderDeptColumn = (deptName: string) => {
-    const deptAgents = agents.filter(a => getDept(a) === deptName && !isMentor(a))
-
-    const strategic = deptAgents.filter(a => a.level === 'strategic')
-    const tactical = deptAgents.filter(a => a.level === 'tactical')
-    const operational = deptAgents.filter(a => a.level === 'operational')
-
-    const count = deptAgents.length
-
-    // Estilo especial para 'Alto comando'
-    const isCommand = deptName === 'Alto comando'
-    const containerClass = isCommand
-      ? 'bg-cyan-950/20 border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.05)]'
-      : 'bg-slate-900/20 border border-slate-800/50'
+  const PowerGrid = () => {
+    const depts = ["Strategy", "Revenue", "Product", "Tech", "People", "Finance"];
+    const levels = ["strategic", "tactical", "operational"];
 
     return (
-      <div className={`flex flex-col min-w-[250px] flex-1 rounded-2xl h-full backdrop-blur-sm ${containerClass}`}>
-        <div className={`p-4 border-b rounded-t-2xl flex justify-between items-center ${isCommand ? 'border-cyan-500/30 bg-cyan-900/20' : 'border-slate-800/50 bg-slate-900/40'}`}>
-          <span className={`font-mono text-xs uppercase tracking-[0.2em] font-bold ${isCommand ? 'text-cyan-400' : 'text-blue-300'}`}>{deptName}</span>
-          <span className={`text-xs px-2 py-1 rounded-full ${isCommand ? 'bg-cyan-900 text-cyan-200' : 'bg-slate-800 text-slate-400'}`}>{count}</span>
-        </div>
-
-        <div className="p-3 flex flex-col gap-2 flex-1 relative">
-          {strategic.length > 0 && (
-            <div className="mb-2">
-              <div className={`text-[9px] uppercase font-bold mb-2 ml-1 tracking-wider ${isCommand ? 'text-cyan-600' : 'text-slate-600'}`}>Estratégico</div>
-              {strategic.map(renderAgentCard)}
+      <div className="w-full overflow-x-auto pb-10 custom-scrollbar">
+        <div id="grid-layout-container" className="relative grid grid-cols-[140px_repeat(6,280px)] gap-4 min-w-max pr-10">
+          {/* Header Row */}
+          <div className="h-16"></div>
+          {depts.map((dept) => (
+            <div key={dept} className="h-16 flex flex-col items-center justify-center border-b border-white/5 pb-2">
+              <span className="text-[11px] font-black font-mono text-cyan-500 uppercase tracking-[0.4em]">{dept}</span>
+              <div className="w-10 h-0.5 bg-cyan-500/40 mt-2 rounded-full"></div>
             </div>
-          )}
+          ))}
 
-          {tactical.length > 0 && (
-            <div className="mb-2">
-              <div className={`text-[9px] uppercase font-bold mb-2 ml-1 tracking-wider ${isCommand ? 'text-cyan-600' : 'text-slate-600'}`}>Tático</div>
-              {tactical.map(renderAgentCard)}
+          {/* Level Rows */}
+          {levels.map((lvl) => (
+            <div key={lvl} className="contents">
+              <div className="flex flex-col items-end justify-center pr-8 border-r border-white/5 opacity-50 relative">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 transform -rotate-90 origin-right translate-x-4 whitespace-nowrap">
+                  {translateLevel(lvl)}
+                </span>
+                <div className="h-full w-px bg-slate-800 absolute right-0 top-0"></div>
+              </div>
+              {depts.map((dept) => (
+                <div key={`${lvl}-${dept}`} className="min-h-[180px] bg-slate-900/20 border border-white/[0.03] rounded-2xl p-4 flex flex-col gap-3 group/cell hover:bg-slate-900/40 transition-all duration-500">
+                  {agents
+                    .filter(a => !isMentor(a) && a.level === lvl && getDept(a) === dept)
+                    .map(renderAgentCard)
+                  }
+                  {agents.filter(a => !isMentor(a) && a.level === lvl && getDept(a) === dept).length === 0 && (
+                    <div className="flex-1 flex items-center justify-center opacity-0 group-hover/cell:opacity-10 transition-opacity">
+                      <div className="w-10 h-10 rounded-full border border-dashed border-slate-600 flex items-center justify-center text-[8px] font-mono">VACANCY</div>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          )}
+          ))}
 
-          {operational.length > 0 && (
-            <div>
-              <div className={`text-[9px] uppercase font-bold mb-2 ml-1 tracking-wider ${isCommand ? 'text-cyan-600' : 'text-slate-600'}`}>Operacional</div>
-              {operational.map(renderAgentCard)}
-            </div>
-          )}
+          <svg id="dependency-layer" className="absolute top-0 left-0 w-full h-full pointer-events-none z-[5]" style={{ overflow: 'visible' }}></svg>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-200 font-sans selection:bg-blue-500/30 p-6 overflow-x-hidden">
-      <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-      </Head>
+    <div className="min-h-screen bg-[#020617] text-slate-200 font-sans selection:bg-blue-500/30 p-6 overflow-x-hidden relative">
+      {/* Absolute Background Effects */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-[-5%] left-[-5%] w-[30%] h-[30%] bg-blue-500/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-5%] right-[-5%] w-[30%] h-[30%] bg-indigo-500/10 rounded-full blur-[120px]"></div>
+      </div>
 
-      <header className="max-w-[1700px] mx-auto mb-8 animate-fade-in">
-        <div className="flex flex-col md:flex-row justify-between items-end border-b border-slate-800/60 pb-6 mb-6">
+      <header className="max-w-[1700px] mx-auto mb-12 animate-fade-in relative z-20">
+        <div className="flex flex-col md:flex-row justify-between items-end border-b border-white/5 pb-8 mb-8">
           <div>
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent mb-1">
-              🏛️ START INC. COMMAND
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_10px_rgba(6,182,212,1)]"></div>
+              <span className="text-[10px] font-black font-mono text-cyan-500 uppercase tracking-[0.5em]">Command_Active_Session</span>
+            </div>
+            <h1 className="text-6xl font-black bg-gradient-to-br from-white via-white to-slate-600 bg-clip-text text-transparent mb-1 tracking-tighter">
+              START INC.
             </h1>
-            <p className="text-xs font-mono text-blue-400 tracking-[0.3em] uppercase opacity-80">
-              Sistema Operacional Executivo AI v2.6 (Cores do Grid)
+            <p className="text-xs font-mono text-slate-500 tracking-[0.3em] uppercase font-bold">
+              Autonomous Executive Grid // v4.0.0
             </p>
           </div>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <div className="text-right">
-              <div className="text-2xl font-bold text-white">{metrics.activeAgents}</div>
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Agentes Ativos</div>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-purple-400">{metrics.strategicCount}</div>
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Diretoria</div>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-green-400">{metrics.recruitmentPipeline}</div>
-              <div className="text-[10px] text-slate-500 uppercase tracking-wider">Candidatos</div>
-            </div>
+          <div className="flex gap-12 mt-6 md:mt-0">
+            {[
+              { label: 'Active Assets', value: metrics.activeAgents, color: 'text-white' },
+              { label: 'Strategic', value: metrics.strategicCount, color: 'text-indigo-400' },
+              { label: 'Recruitment', value: metrics.recruitmentPipeline, color: 'text-emerald-400' }
+            ].map(m => (
+              <div key={m.label} className="text-right">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">{m.label}</div>
+                <div className={`text-4xl font-black ${m.color}`}>{m.value}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="flex gap-4">
-          <button
-            onClick={() => setActiveSection('grid')}
-            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 border ${activeSection === 'grid' ? 'bg-blue-600/20 border-blue-500 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-600'}`}
-          >
-            🌐 O GRID (ORGANOGRAMA)
-          </button>
-          <button
-            onClick={() => setActiveSection('mentors')}
-            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 border ${activeSection === 'mentors' ? 'bg-purple-600/20 border-purple-500 text-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.2)]' : 'bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-600'}`}
-          >
-            🧠 MENTORES & CONSELHEIROS
-          </button>
-          <button
-            onClick={() => setActiveSection('recruitment')}
-            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 border ${activeSection === 'recruitment' ? 'bg-blue-600/20 border-blue-500 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-600'}`}
-          >
-            ⚔️ SALA DE GUERRA (RECRUTAMENTO)
-          </button>
-          <button
-            onClick={() => setActiveSection('orgchart')}
-            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 border ${activeSection === 'orgchart' ? 'bg-amber-600/20 border-amber-500 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.2)]' : 'bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-600'}`}
-          >
-            🌳 ORGANOGRAMA INTERATIVO
-          </button>
+        <div className="flex flex-wrap gap-3">
+          {[
+            { id: 'grid', label: '⚔️ The Grid', color: 'border-cyan-500 text-cyan-400 bg-cyan-500/10' },
+            { id: 'mentors', label: '🧠 Board', color: 'border-purple-500 text-purple-400 bg-purple-500/10' },
+            { id: 'recruitment', label: '⚡ War Room', color: 'border-emerald-500 text-emerald-400 bg-emerald-500/10' },
+            { id: 'orgchart', label: '🌳 Interaction', color: 'border-amber-500 text-amber-400 bg-amber-500/10' }
+          ].map(btn => (
+            <button
+              key={btn.id}
+              onClick={() => setActiveSection(btn.id as any)}
+              className={`px-6 py-3 rounded-2xl font-black text-[10px] transition-all duration-500 border uppercase tracking-[0.3em] ${activeSection === btn.id ? btn.color + ' shadow-[0_0_40px_rgba(34,211,238,0.1)] scale-105' : 'bg-slate-900/60 border-white/5 text-slate-500 hover:border-white/10 hover:text-slate-300'}`}
+            >
+              {btn.label}
+            </button>
+          ))}
         </div>
       </header>
 
       <main className="max-w-[1700px] mx-auto min-h-[600px] relative">
 
         {/* GRID VIEW */}
-        {activeSection === 'grid' && (
-          <div id="grid-layout-container" className="relative flex gap-6 overflow-x-auto pb-10 min-h-[70vh]">
-            {/* Renderizar Alto comando primeiro se existir */}
-            {agents.some(a => getDept(a) === "Alto comando") && renderDeptColumn("Alto comando")}
-
-            {/* Renderizar as outras colunas dinamicamente */}
-            {Array.from(new Set(agents.filter(a => !isMentor(a)).map(a => getDept(a))))
-              .filter(d => d !== "Alto comando")
-              .sort((a, b) => {
-                // Manter ordem sugerida para as principais
-                const order = ["Estratégia", "Receita", "Produto", "RH", "Finanças", "Copywriting", "Lançamentos", "Conteúdo"];
-                const idxA = order.indexOf(a!);
-                const idxB = order.indexOf(b!);
-                if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-                if (idxA !== -1) return -1;
-                if (idxB !== -1) return 1;
-                return a!.localeCompare(b!);
-              })
-              .map(dept => renderDeptColumn(dept!))
-            }
-
-            <svg id="dependency-layer" className="absolute top-0 left-0 w-full h-full pointer-events-none z-[5]" style={{ overflow: 'visible' }}></svg>
-          </div>
-        )}
+        {activeSection === 'grid' && <PowerGrid />}
 
         {/* MENTORS VIEW */}
         {activeSection === 'mentors' && (
