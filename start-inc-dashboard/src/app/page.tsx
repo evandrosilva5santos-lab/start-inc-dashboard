@@ -17,6 +17,7 @@ type Agent = {
   profile?: string
   competencies?: string
   results?: string
+  department?: string
 }
 
 type Candidate = {
@@ -208,17 +209,21 @@ export default function Dashboard() {
   }
 
   function getDept(agent: Agent) {
-    const role = (agent.role || '').toLowerCase()
-    const name = (agent.name || '').toLowerCase()
+    // 1. Prioridade absoluta para o campo do banco de dados
+    if (agent.department) return agent.department;
 
-    // NOVO DEPARTAMENTO: ALTO COMANDO (Coração da Empresa)
+    // 2. Fallback para nomes específicos (Alto Comando)
+    const name = (agent.name || '').toLowerCase()
     if (name === 'vision' || name === 'jarvis') return "Alto comando"
 
+    // 3. Lógica baseada em cargo (Legacy/Fallback)
+    const role = (agent.role || '').toLowerCase()
     if (role.includes('ceo') || role.includes('board') || role.includes('cso') || role.includes('coo')) return "Estratégia"
     if (role.includes('marketing') || role.includes('revenue') || role.includes('vendas') || role.includes('growth') || role.includes('receita') || role.includes('tráfego') || role.includes('copy')) return "Receita"
     if (role.includes('tech') || role.includes('product') || role.includes('ai') || role.includes('dados') || role.includes('automação') || role.includes('vídeo') || role.includes('produto')) return "Produto"
     if (role.includes('people') || role.includes('hr') || role.includes('rh') || role.includes('cultura') || role.includes('recrutamento') || role.includes('psicologia')) return "RH"
     if (role.includes('finance') || role.includes('cfo') || role.includes('investment') || role.includes('financeiro')) return "Finanças"
+
     return "Estratégia"
   }
 
@@ -501,15 +506,24 @@ export default function Dashboard() {
         {/* GRID VIEW */}
         {activeSection === 'grid' && (
           <div id="grid-layout-container" className="relative flex gap-6 overflow-x-auto pb-10 min-h-[70vh]">
-            {/* ALTO COMANDO (NOVA COLUNA DESTAQUE) */}
-            {renderDeptColumn("Alto comando")}
+            {/* Renderizar Alto comando primeiro se existir */}
+            {agents.some(a => getDept(a) === "Alto comando") && renderDeptColumn("Alto comando")}
 
-            {/* COLUNAS PADRAO */}
-            {renderDeptColumn("Estratégia")}
-            {renderDeptColumn("Receita")}
-            {renderDeptColumn("Produto")}
-            {renderDeptColumn("RH")}
-            {renderDeptColumn("Finanças")}
+            {/* Renderizar as outras colunas dinamicamente */}
+            {Array.from(new Set(agents.filter(a => !isMentor(a)).map(a => getDept(a))))
+              .filter(d => d !== "Alto comando")
+              .sort((a, b) => {
+                // Manter ordem sugerida para as principais
+                const order = ["Estratégia", "Receita", "Produto", "RH", "Finanças", "Copywriting", "Lançamentos", "Conteúdo"];
+                const idxA = order.indexOf(a!);
+                const idxB = order.indexOf(b!);
+                if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+                if (idxA !== -1) return -1;
+                if (idxB !== -1) return 1;
+                return a!.localeCompare(b!);
+              })
+              .map(dept => renderDeptColumn(dept!))
+            }
 
             <svg id="dependency-layer" className="absolute top-0 left-0 w-full h-full pointer-events-none z-[5]" style={{ overflow: 'visible' }}></svg>
           </div>

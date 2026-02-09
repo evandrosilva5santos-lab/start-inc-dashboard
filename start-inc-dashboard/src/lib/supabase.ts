@@ -23,6 +23,7 @@ export type Agent = {
     outputs: string[] | null
     created_at: string
     updated_at: string
+    department: string | null
     skills?: AgentSkill[]
 }
 
