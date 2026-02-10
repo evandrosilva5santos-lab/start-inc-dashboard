@@ -9,7 +9,7 @@ const supabase = createClient(
 async function run() {
   console.log('🎬 MOBILIZANDO UNIDADE 3 V2 (FIELDS FIXED)...');
 
-  const { data: agents } = await supabase.from('agents').select('id, name');
+  const { data: agents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const getAgentId = (name) => agents.find(a => a.name === name)?.id;
   const garyId = getAgentId('Gary Vaynerchuk');
 
@@ -26,7 +26,7 @@ async function run() {
   });
 
   // 1. TIM FERRISS
-  await supabase.from('agents').update({
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({
     role: 'Conselheiro Secreto / Mentor de Vision & Jarvis',
     level: 'strategic',
     department: 'Conselho',
@@ -34,7 +34,7 @@ async function run() {
   }).eq('name', 'Tim Ferriss');
 
   // 2. PAULO CUENCA (Head Redes Sociais)
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Paulo Cuenca',
     role: 'Head de Redes Sociais',
     level: 'strategic',
@@ -47,7 +47,7 @@ async function run() {
   }, { onConflict: 'name' });
 
   // 3. MrBeast (Head Youtube)
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'MrBeast',
     role: 'Head de Youtube',
     level: 'strategic',
@@ -60,12 +60,12 @@ async function run() {
   }, { onConflict: 'name' });
 
   // Pegar IDs novos
-  const res = await supabase.from('agents').select('id, name');
+  const res = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const cuencaId = res.data.find(a => a.name === 'Paulo Cuenca')?.id;
   const beastId = res.data.find(a => a.name === 'MrBeast')?.id;
 
   // 4. OPERACIONAL
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Penoni',
     role: 'Estrategista de Reels Virais (Operacional)',
     level: 'operational',
@@ -77,7 +77,7 @@ async function run() {
     ...defaultFields('Estrategista de Reels')
   }, { onConflict: 'name' });
 
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Peter Jordan',
     role: 'Estrategista de Youtube (Operacional)',
     level: 'operational',
@@ -89,7 +89,7 @@ async function run() {
     ...defaultFields('Estrategista de Youtube')
   }, { onConflict: 'name' });
 
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Free Tools Editor',
     role: 'Especialista em Edição de Vídeo AI',
     level: 'operational',

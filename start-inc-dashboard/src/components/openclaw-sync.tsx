@@ -44,7 +44,7 @@ export function OpenClawSync() {
         try {
             // Get all agents from Supabase
             const { data: agents, error } = await supabase
-                .from('agents')
+                .from('[OpenClaw] Dashboard - Agents')
                 .select('*')
                 .order('level', { ascending: true })
 

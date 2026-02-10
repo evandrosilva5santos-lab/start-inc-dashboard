@@ -10,7 +10,7 @@ async function run() {
   console.log('🎬 MOBILIZANDO UNIDADE 3: VIRAL IA MACHINE...');
 
   // 1. Obter IDs dos líderes
-  const { data: agents } = await supabase.from('agents').select('id, name');
+  const { data: agents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const getAgentId = (name) => agents.find(a => a.name === name)?.id;
 
   const garyId = getAgentId('Gary Vaynerchuk'); // CCO
@@ -20,13 +20,13 @@ async function run() {
   }
 
   // 2. TIM FERRISS (Conselho)
-  await supabase.from('agents').update({
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({
     role: 'Conselheiro Secreto / Mentor de Vision & Jarvis',
     level: 'strategic',
     department: 'Conselho',
     reports_to: null
   }).eq('name', 'Tim Ferriss');
-  await supabase.from('candidates').delete().eq('name', 'Tim Ferriss');
+  await supabase.from('[OpenClaw] Dashboard - Candidates').delete().eq('name', 'Tim Ferriss');
   console.log('🛡️ Tim Ferriss elevado ao Conselho.');
 
   // 3. HEADS DE CONTEÚDO
@@ -39,7 +39,7 @@ async function run() {
     department: 'Conteúdo',
     emoji: '📹'
   };
-  await supabase.from('agents').upsert(cuencaData, { onConflict: 'name' });
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert(cuencaData, { onConflict: 'name' });
   
   // MrBeast (Head de Youtube)
   const beastData = {
@@ -50,17 +50,17 @@ async function run() {
     department: 'Conteúdo',
     emoji: '🦁'
   };
-  await supabase.from('agents').upsert(beastData, { onConflict: 'name' });
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert(beastData, { onConflict: 'name' });
   console.log('✅ Heads de Conteúdo (Cuenca & MrBeast) ativados.');
 
   // IDs dos novos heads para subordinação
-  const updatedAgents = await supabase.from('agents').select('id, name');
+  const updatedAgents = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const cuencaId = updatedAgents.data.find(a => a.name === 'Paulo Cuenca')?.id;
   const beastId = updatedAgents.data.find(a => a.name === 'MrBeast')?.id;
 
   // 4. OPERACIONAL
   // Penoni (em Paulo Cuenca)
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Penoni',
     role: 'Estrategista de Reels Virais (Operacional)',
     level: 'operational',
@@ -70,7 +70,7 @@ async function run() {
   }, { onConflict: 'name' });
 
   // Peter Jordan (em MrBeast)
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Peter Jordan',
     role: 'Estrategista de Youtube (Operacional)',
     level: 'operational',
@@ -80,7 +80,7 @@ async function run() {
   }, { onConflict: 'name' });
 
   // Free Tools Editor (em Paulo Cuenca ou Gary)
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Free Tools Editor',
     role: 'Especialista em Edição de Vídeo AI',
     level: 'operational',
@@ -91,7 +91,7 @@ async function run() {
 
   // 5. Marcar aprovados no pool
   const namesToApprove = ['Paulo Cuenca', 'MrBeast', 'Penoni', 'Peter Jordan', 'Free Tools Editor'];
-  await supabase.from('candidates').update({ status: 'approved' }).in('name', namesToApprove);
+  await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).in('name', namesToApprove);
 
   console.log('🏁 UNIDADE 3 SINCRONIZADA. REALTIME ATIVO.');
 }

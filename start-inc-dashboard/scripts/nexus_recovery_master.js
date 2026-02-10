@@ -10,7 +10,7 @@ async function run() {
   console.log('🚑 INICIANDO RECUPERAÇÃO MESTRE DO NEXUS...');
 
   // 1. IDs Fundamentais (Pegar IDs dos Diretores para report)
-  const { data: currentAgents } = await supabase.from('agents').select('id, name');
+  const { data: currentAgents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const getID = (name) => currentAgents.find(a => a.name === name)?.id;
 
   // Liderança Suprema
@@ -34,14 +34,14 @@ async function run() {
   ];
 
   for (const a of [...leaders, ...directors]) {
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: a.name, role: a.role, emoji: a.emoji, level: a.level, department: a.dept,
       autonomy: 'high', model: 'anthropic/claude-3-5-sonnet-20240620'
     }, { onConflict: 'name' });
   }
 
   // Pegar novos IDs após upsert de diretores
-  const { data: newAgents } = await supabase.from('agents').select('id, name');
+  const { data: newAgents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const findID = (name) => newAgents.find(a => a.name === name)?.id;
   
   const elonId = findID('Elon Musk');
@@ -85,7 +85,7 @@ async function run() {
   ];
 
   for (const s of specialists) {
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: s.name, role: s.role, level: s.level, reports_to: s.reports_to, department: s.dept,
       autonomy: 'medium'
     }, { onConflict: 'name' });

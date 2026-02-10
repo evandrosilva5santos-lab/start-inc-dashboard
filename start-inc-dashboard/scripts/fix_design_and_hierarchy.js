@@ -10,12 +10,12 @@ async function run() {
   console.log('🎨 REFINANDO CORES E HIERARQUIA DO NEXUS...');
 
   // 1. Identificar o Elon Musk (CSO)
-  const { data: elon } = await supabase.from('agents').select('id').eq('name', 'Elon Musk').single();
+  const { data: elon } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'Elon Musk').single();
   
   // 2. MOVER O G4 PARA O TIME DO ELON (ESTRATÉGIA)
   const g4 = ['Talles Gomes', 'Alfredo Soares', 'Bruno Nardon'];
   if (elon) {
-    await supabase.from('agents').update({ 
+    await supabase.from('[OpenClaw] Dashboard - Agents').update({ 
       reports_to: elon.id, 
       department: 'Estratégia',
       level: 'tactical' 
@@ -58,7 +58,7 @@ async function run() {
     'Lázaro'
   ];
 
-  await supabase.from('agents').update({ level: 'tactical' }).in('name', actualHeads);
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({ level: 'tactical' }).in('name', actualHeads);
   console.log('✅ Heads de departamento rebaixados para nível Tático (Azul) para distinção visual.');
 
   // 4. GARANTIR DIRETORES COMO ESTRATÉGICOS (Roxo)
@@ -73,7 +73,7 @@ async function run() {
     'Cassie Kozyrkov' // CDO
   ];
   
-  await supabase.from('agents').update({ level: 'strategic' }).in('name', directors);
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({ level: 'strategic' }).in('name', directors);
   console.log('✅ Diretores (C-Suite) confirmados como nível Estratégico (Roxo).');
 
   console.log('🏁 SINCRONIZAÇÃO DE DESIGN CONCLUÍDA.');

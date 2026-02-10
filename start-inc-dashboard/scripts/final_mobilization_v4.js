@@ -9,7 +9,7 @@ const supabase = createClient(
 async function run() {
   console.log('🚀 MOBILIZAÇÃO FINAL V4 (CONSTRAINTS FIXED)...');
 
-  const { data: agents } = await supabase.from('agents').select('id, name');
+  const { data: agents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const getAgentId = (name) => agents.find(a => a.name === name)?.id;
 
   const icaroId = getAgentId('Ícaro de Carvalho');
@@ -30,13 +30,13 @@ async function run() {
   });
 
   // 1. ELEVAR ÍCARO
-  await supabase.from('agents').update({
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({
     role: 'Head de Copywriting (Global)',
     level: 'strategic'
   }).eq('name', 'Ícaro de Carvalho');
 
   // 2. ATIVAR MATEUS VAKUDA
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Mateus Vakuda',
     role: 'Especialista em Criativos (Copy Invisível)',
     level: 'operational',
@@ -48,7 +48,7 @@ async function run() {
   }, { onConflict: 'name' });
 
   // 3. CONFIGURAR LUCAS RENAULT
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Lucas Renault',
     role: 'Gestor Operacional de Tráfego & Métricas',
     level: 'operational',
@@ -67,7 +67,7 @@ async function run() {
   ];
 
   for (const p of triad) {
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: p.name,
       role: p.role,
       level: 'operational',
@@ -81,7 +81,7 @@ async function run() {
 
   // Marcar como aprovados
   const names = ['Mateus Vakuda', 'Lucas Renault', 'Leandro Ladeira', 'Érico Rocha', 'Priscila Zillo'];
-  await supabase.from('candidates').update({ status: 'approved' }).in('name', names);
+  await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).in('name', names);
 
   console.log('✅ Mobilização V4 Concluída com sucesso.');
 }

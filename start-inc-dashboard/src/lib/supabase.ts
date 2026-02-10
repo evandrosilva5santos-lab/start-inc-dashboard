@@ -9,6 +9,9 @@ export type Agent = {
     id: string
     name: string
     role: string
+    description: string | null
+    prompt: string | null
+    progresso_percentual: number
     emoji: string | null
     level: 'strategic' | 'tactical' | 'operational'
     autonomy: 'high' | 'medium' | 'low'
@@ -25,6 +28,9 @@ export type Agent = {
     updated_at: string
     department: string | null
     skills?: AgentSkill[]
+    status?: string // 'idle' | 'working' | 'offline' | 'error'
+    current_task?: string
+    last_active?: string
 }
 
 export type AgentSkill = {

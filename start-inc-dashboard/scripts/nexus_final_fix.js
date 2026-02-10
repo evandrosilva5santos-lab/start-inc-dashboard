@@ -10,7 +10,7 @@ async function run() {
   console.log('🏛️  NEXUS FINAL SYNCHRONIZATION...');
 
   // 1. IDs fundamentais
-  const { data: agents } = await supabase.from('agents').select('id, name');
+  const { data: agents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const getAgentId = (name) => agents.find(a => a.name === name)?.id;
 
   const ryanId = getAgentId('Ryan Deiss');
@@ -23,7 +23,7 @@ async function run() {
   // Ryan leads the 5 Heads: Érico, Finch, Neil Patel, Pedro Sobral, Ícaro.
   const marketingHeads = ['Érico Rocha', 'Tiago Finch', 'Neil Patel', 'Pedro Sobral', 'Ícaro de Carvalho'];
   for (const name of marketingHeads) {
-    await supabase.from('agents').update({ reports_to: ryanId, level: 'strategic' }).eq('name', name);
+    await supabase.from('[OpenClaw] Dashboard - Agents').update({ reports_to: ryanId, level: 'strategic' }).eq('name', name);
   }
 
   // 3. COPYWRITING DEPARTMENT (Ícaro de Carvalho)
@@ -36,7 +36,7 @@ async function run() {
     { name: 'Mateus Vakuda', role: 'Especialista em Criativos (Alocado Unidade 1)', emoji: '🥷' }
   ];
   for (const m of copyMasters) {
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: m.name,
       role: m.role,
       level: 'operational',
@@ -48,16 +48,16 @@ async function run() {
   }
 
   // 4. LANÇAMENTOS (Érico Rocha)
-  await supabase.from('agents').update({ reports_to: ericoId }).eq('name', 'Priscila Zillo');
-  await supabase.from('agents').update({ reports_to: ericoId }).eq('name', 'Leandro Ladeira');
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({ reports_to: ericoId }).eq('name', 'Priscila Zillo');
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({ reports_to: ericoId }).eq('name', 'Leandro Ladeira');
 
   // 5. TRÁFEGO (Pedro Sobral)
-  await supabase.from('agents').update({ reports_to: sobralId }).eq('name', 'Lucas Renault');
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({ reports_to: sobralId }).eq('name', 'Lucas Renault');
 
   // 6. MENTORES (CONSELHO)
   const mentors = ['Joel Jota', 'Thiago Nigro', 'Flávio Augusto'];
   for (const name of mentors) {
-    await supabase.from('agents').update({ department: 'Conselho', level: 'strategic', reports_to: null }).eq('name', name);
+    await supabase.from('[OpenClaw] Dashboard - Agents').update({ department: 'Conselho', level: 'strategic', reports_to: null }).eq('name', name);
   }
 
   console.log('🏁 SINCRONIZAÇÃO COMPLETA. VERIFIQUE O DASHBOARD.');

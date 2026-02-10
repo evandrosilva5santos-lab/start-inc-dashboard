@@ -8,7 +8,7 @@ const supabase = createClient(
 
 async function run() {
   console.log('🏗️ INICIANDO AUDITORIA ESTRUTURAL (MODEL, WORKSPACE, DEPARTMENT)...');
-  const { data: agents, error } = await supabase.from('agents').select('*');
+  const { data: agents, error } = await supabase.from('[OpenClaw] Dashboard - Agents').select('*');
   if (error) { console.error(error); return; }
 
   let incomplete = [];

@@ -38,7 +38,7 @@ export function AgentEditor({ agent, isOpen, onClose, onSave }: AgentEditorProps
             const responsibilities = respText.split(',').map(s => s.trim()).filter(s => s !== '')
 
             const { error } = await supabase
-                .from('agents')
+                .from('[OpenClaw] Dashboard - Agents')
                 .update({
                     name: formData.name,
                     role: formData.role,

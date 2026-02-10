@@ -9,7 +9,7 @@ const supabase = createClient(
 async function run() {
   console.log('💎 INICIANDO ENRIQUECIMENTO DE ALTA FIDELIDADE: GRANDES FEITOS, LEMAS E CRENÇAS...');
 
-  const { data: agents, error } = await supabase.from('agents').select('*');
+  const { data: agents, error } = await supabase.from('[OpenClaw] Dashboard - Agents').select('*');
   if (error) { console.error(error); return; }
 
   // Mapeamento de dados de elite para os Mentores e Agentes Principais
@@ -176,7 +176,7 @@ async function run() {
       };
     }
 
-    const { error: updateError } = await supabase.from('agents').update(update).eq('id', agent.id);
+    const { error: updateError } = await supabase.from('[OpenClaw] Dashboard - Agents').update(update).eq('id', agent.id);
     if (updateError) console.error(`❌ Erro em ${agent.name}:`, updateError);
     else console.log(`✅ [MASTER] ${agent.name}: Lemas e Feitos sincronizados.`);
   }

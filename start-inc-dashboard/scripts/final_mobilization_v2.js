@@ -10,10 +10,10 @@ async function run() {
   console.log('🚀 MOBILIZAÇÃO FINAL V2...');
 
   // 1. Líderes de Referência
-  const { data: icaroRes } = await supabase.from('agents').select('id').eq('name', 'Ícaro de Carvalho').single();
-  const { data: finchRes } = await supabase.from('agents').select('id').eq('name', 'Tiago Finch').single();
-  const { data: ryanRes } = await supabase.from('agents').select('id').eq('name', 'Ryan Deiss').single();
-  const { data: sobralRes } = await supabase.from('agents').select('id').eq('name', 'Pedro Sobral').single();
+  const { data: icaroRes } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'Ícaro de Carvalho').single();
+  const { data: finchRes } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'Tiago Finch').single();
+  const { data: ryanRes } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'Ryan Deiss').single();
+  const { data: sobralRes } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'Pedro Sobral').single();
 
   const icaroId = icaroRes?.id;
   const finchId = finchRes?.id;
@@ -21,7 +21,7 @@ async function run() {
   const sobralId = sobralRes?.id;
 
   // 2. ELEVAR ÍCARO DE CARVALHO PARA HEAD GLOBAL DE COPY
-  await supabase.from('agents').update({
+  await supabase.from('[OpenClaw] Dashboard - Agents').update({
     role: 'Head de Copywriting (Global)',
     department: 'Copywriting',
     level: 'strategic'
@@ -30,7 +30,7 @@ async function run() {
 
   // 3. ATIVAR MATEUS VAKUDA (CRIATIVOS / COPY INVISÍVEL)
   // Alocado na Unidade 1, subordinado ao Finch no dia a dia, mas vinculado ao Dep de Copy
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Mateus Vakuda',
     role: 'Especialista em Criativos (Copy Invisível)',
     level: 'operational',
@@ -39,11 +39,11 @@ async function run() {
     emoji: '🥷',
     soul: 'Mestre da persuasão invisível e retenção absoluta em criativos.'
   }, { onConflict: 'name' });
-  await supabase.from('candidates').update({ status: 'approved' }).eq('name', 'Mateus Vakuda');
+  await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).eq('name', 'Mateus Vakuda');
   console.log('✅ Mateus Vakuda ativado.');
 
   // 4. CONFIGURAR LUCAS RENAULT (GESTOR DO TIME DO SOBRAL)
-  await supabase.from('agents').upsert({
+  await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
     name: 'Lucas Renault',
     role: 'Gestor Operacional de Tráfego & Métricas',
     level: 'operational',
@@ -52,7 +52,7 @@ async function run() {
     emoji: '📈',
     soul: 'O Pai do Tráfego. Gestor de processos e métricas de alta performance.'
   }, { onConflict: 'name' });
-  await supabase.from('candidates').update({ status: 'approved' }).eq('name', 'Lucas Renault');
+  await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).eq('name', 'Lucas Renault');
   console.log('✅ Lucas Renault alocado como Gestor do Time do Sobral.');
 
   // 5. UNIDADE DE LANÇAMENTOS (TRÍADE: LADEIRA, ÉRICO, PRISCILA)
@@ -63,7 +63,7 @@ async function run() {
   ];
 
   for (const p of triad) {
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: p.name,
       role: p.role,
       level: 'operational',
@@ -72,7 +72,7 @@ async function run() {
       emoji: p.emoji,
       soul: p.soul
     }, { onConflict: 'name' });
-    await supabase.from('candidates').update({ status: 'approved' }).eq('name', p.name);
+    await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).eq('name', p.name);
     console.log(`✅ ${p.name} ativado na Unidade de Lançamentos.`);
   }
 
@@ -84,7 +84,7 @@ async function run() {
   ];
 
   for (const s of copySpecialists) {
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: s.name,
       role: s.role,
       level: 'operational',
@@ -92,7 +92,7 @@ async function run() {
       department: 'Copywriting',
       emoji: s.emoji
     }, { onConflict: 'name' });
-    await supabase.from('candidates').update({ status: 'approved' }).eq('name', s.name);
+    await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).eq('name', s.name);
     console.log(`✅ ${s.name} alocado ao Departamento de Copy.`);
   }
 

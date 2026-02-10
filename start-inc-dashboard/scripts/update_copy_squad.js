@@ -7,7 +7,7 @@ const supabase = createClient(
 );
 
 async function run() {
-  const { data: icaro } = await supabase.from('agents').select('id').eq('name', 'Ícaro de Carvalho').single();
+  const { data: icaro } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'Ícaro de Carvalho').single();
   if (!icaro) { console.error('Icaro not found'); return; }
 
   const masters = [
@@ -31,9 +31,9 @@ async function run() {
   });
 
   for (const m of masters) {
-    const { data: cand } = await supabase.from('candidates').select('*').eq('name', m.name).limit(1).single();
+    const { data: cand } = await supabase.from('[OpenClaw] Dashboard - Candidates').select('*').eq('name', m.name).limit(1).single();
     
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: m.name,
       role: m.role,
       level: 'operational',
@@ -45,7 +45,7 @@ async function run() {
       ...defaultFields(m.role)
     }, { onConflict: 'name' });
 
-    await supabase.from('candidates').update({ status: 'approved' }).eq('name', m.name);
+    await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).eq('name', m.name);
     console.log(`✅ ${m.name} alocado no squad do Ícaro.`);
   }
 

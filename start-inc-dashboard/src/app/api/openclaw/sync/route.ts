@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { promises as fs } from 'fs'
 import path from 'path'
 import { createClient } from '@supabase/supabase-js'
+import { TABLE_NAMES } from '@/lib/constants'
 
 export async function POST(req: Request) {
     try {
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
             // Nota: Em um sistema real, usaríamos uma chave única melhor
             for (const agent of agentsToUpsert) {
                 await supabase
-                    .from('agents')
+                    .from(TABLE_NAMES.AGENTS)
                     .upsert(agent, { onConflict: 'name' })
             }
 

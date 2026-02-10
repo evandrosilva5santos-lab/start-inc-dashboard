@@ -81,7 +81,7 @@ async function run() {
   ];
 
   for (const agent of updates) {
-    const { error } = await supabase.from('agents').update(agent).eq('name', agent.name);
+    const { error } = await supabase.from('[OpenClaw] Dashboard - Agents').update(agent).eq('name', agent.name);
     if (error) console.error(`Erro em ${agent.name}:`, error);
     else console.log(`✅ [FINAL POLISH] ${agent.name} refinado.`);
   }

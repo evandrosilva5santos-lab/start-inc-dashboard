@@ -11,7 +11,7 @@ const CLAUDE_MODEL = 'anthropic/claude-3-5-sonnet-20240620';
 
 async function run() {
   console.log('🏗️ INICIANDO ENRIQUECIMENTO ESTRUTURAL DO NEXUS...');
-  const { data: agents } = await supabase.from('agents').select('*');
+  const { data: agents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('*');
 
   const updates = agents.map(agent => {
     let update = { name: agent.name };
@@ -56,7 +56,7 @@ async function run() {
 
   for (const item of updates) {
     const { name, ...fields } = item;
-    const { error } = await supabase.from('agents').update(fields).eq('name', name);
+    const { error } = await supabase.from('[OpenClaw] Dashboard - Agents').update(fields).eq('name', name);
     if (error) console.error(`Erro em ${name}:`, error);
     else console.log(`✅ [ESTRUTURA] ${name} atualizado.`);
   }

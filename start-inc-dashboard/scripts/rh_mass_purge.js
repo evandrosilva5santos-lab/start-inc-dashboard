@@ -7,7 +7,7 @@ const supabase = createClient(
 );
 
 async function purgeCandidates() {
-  const { data: candidates, error } = await supabase.from('candidates').select('*');
+  const { data: candidates, error } = await supabase.from('[OpenClaw] Dashboard - Candidates').select('*');
   if (error) { console.error(error); return; }
 
   console.log('🧹 INICIANDO LIMPEZA RADICAL NO RH...');
@@ -37,7 +37,7 @@ async function purgeCandidates() {
   });
 
   if (toDelete.length > 0) {
-    await supabase.from('candidates').delete().in('id', toDelete);
+    await supabase.from('[OpenClaw] Dashboard - Candidates').delete().in('id', toDelete);
     console.log(`🔥 PURGA EXECUTADA: ${toDelete.length} candidatos eliminados.`);
   }
 

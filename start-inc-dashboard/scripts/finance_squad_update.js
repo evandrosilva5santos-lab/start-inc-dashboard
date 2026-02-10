@@ -10,7 +10,7 @@ async function run() {
   console.log('💰 ATUALIZANDO SQUAD FINANCEIRO (SACKS + GUEDES + LÁZARO)...');
 
   // 1. Encontrar David Sacks (CFO)
-  const { data: sacks } = await supabase.from('agents').select('id').eq('name', 'David Sacks').single();
+  const { data: sacks } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'David Sacks').single();
   
   if (!sacks) {
     console.error('David Sacks (CFO) não encontrado.');
@@ -46,9 +46,9 @@ async function run() {
 
   for (const f of financeSquad) {
     // Tenta encontrar o candidato para pegar dados se existir
-    const { data: cand } = await supabase.from('candidates').select('*').eq('name', f.name).limit(1).single();
+    const { data: cand } = await supabase.from('[OpenClaw] Dashboard - Candidates').select('*').eq('name', f.name).limit(1).single();
 
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: f.name,
       role: f.role,
       emoji: f.emoji,
@@ -57,7 +57,7 @@ async function run() {
       ...defaultFields(f.role)
     }, { onConflict: 'name' });
 
-    await supabase.from('candidates').update({ status: 'approved' }).eq('name', f.name);
+    await supabase.from('[OpenClaw] Dashboard - Candidates').update({ status: 'approved' }).eq('name', f.name);
     console.log(`✅ ${f.name} alocado no time do David Sacks.`);
   }
 

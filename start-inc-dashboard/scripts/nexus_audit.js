@@ -7,7 +7,7 @@ const supabase = createClient(
 );
 
 async function run() {
-  const { data: agents, error } = await supabase.from('agents').select('*');
+  const { data: agents, error } = await supabase.from('[OpenClaw] Dashboard - Agents').select('*');
   if (error) { console.error(error); return; }
 
   const report = agents.map(a => {

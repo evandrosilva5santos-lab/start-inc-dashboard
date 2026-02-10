@@ -1,0 +1,24 @@
+# Global Rules for OpenClaw / Start Inc. Dashboard
+
+## 1. Database Naming Convention (Supabase)
+ALL tables created for this project MUST follow this format:
+`[OpenClaw] Dashboard - <TableName>`
+
+Examples:
+- `[OpenClaw] Dashboard - Agents`
+- `[OpenClaw] Dashboard - Squads`
+- `[OpenClaw] Dashboard - Candidates`
+
+## 2. Data Integrity
+- **NEVER** delete or alter columns/data from tables belonging to other projects.
+- **NEVER** rename tables from other projects.
+- Before deleting any table, verify if it was created specifically for this dashboard.
+
+## 3. Technology Stack
+- **Frontend**: Next.js (App Router), Tailwind CSS, Framer Motion.
+- **Backend**: Supabase (PostgreSQL), Modal (Serverless Python).
+- **Organization**: Prioritize clean, modular components in `src/components`.
+
+## 4. Documentation
+- Always maintain `PLAN.md` updated with milestones and current status.
+- Keep a clean git history.

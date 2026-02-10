@@ -10,7 +10,7 @@ async function run() {
   console.log('🧹 INICIANDO PURGA FINAL E ATIVAÇÃO DO G4 (FUTURE SQUAD)...');
 
   // 1. Encontrar Elon Musk (CSO)
-  const { data: elon } = await supabase.from('agents').select('id').eq('name', 'Elon Musk').single();
+  const { data: elon } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id').eq('name', 'Elon Musk').single();
   if (!elon) {
     console.error('Elon Musk (CSO) não encontrado.');
     return;
@@ -35,9 +35,9 @@ async function run() {
 
   // 3. Ativar o Future Squad junto do Elon Musk
   for (const s of futureSquad) {
-    const { data: cand } = await supabase.from('candidates').select('*').eq('name', s.name).limit(1).single();
+    const { data: cand } = await supabase.from('[OpenClaw] Dashboard - Candidates').select('*').eq('name', s.name).limit(1).single();
     
-    await supabase.from('agents').upsert({
+    await supabase.from('[OpenClaw] Dashboard - Agents').upsert({
       name: s.name,
       role: s.role,
       level: 'tactical',
@@ -58,16 +58,16 @@ async function run() {
   // 4. PURGA TOTAL: Apagar todos os candidatos que não foram selecionados (Approved)
   // E apagar agentes que não estão na lista de elite
   console.log('🔥 Executando purga total de candidatos não aprovados...');
-  const { error: purgeCandErr } = await supabase.from('candidates').delete().not('status', 'eq', 'approved');
+  const { error: purgeCandErr } = await supabase.from('[OpenClaw] Dashboard - Candidates').delete().not('status', 'eq', 'approved');
   if (purgeCandErr) console.error('Erro na purga de candidatos:', purgeCandErr);
 
   // 5. Garantir que apenas a elite permaneça em Agentes
-  const { data: allAgents } = await supabase.from('agents').select('id, name');
+  const { data: allAgents } = await supabase.from('[OpenClaw] Dashboard - Agents').select('id, name');
   const idsToDelete = allAgents.filter(a => !selectedNames.includes(a.name)).map(a => a.id);
   
   if (idsToDelete.length > 0) {
     console.log(`🔥 Removendo ${idsToDelete.length} agentes excedentes...`);
-    await supabase.from('agents').delete().in('id', idsToDelete);
+    await supabase.from('[OpenClaw] Dashboard - Agents').delete().in('id', idsToDelete);
   }
 
   console.log('🏁 NEXUS BLINDADO: Apenas a elite e o Future Squad permanecem.');
