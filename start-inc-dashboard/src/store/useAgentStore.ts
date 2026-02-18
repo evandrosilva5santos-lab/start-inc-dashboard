@@ -7,7 +7,7 @@ import { updateAgentStatus as updateAgentStatusApi } from '@/lib/modal';
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 
-const convexClient = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const convexClient = new ConvexHttpClient("https://sincere-lynx-996.convex.cloud");
 
 interface AgentMetrics {
     activeAgents: number;
