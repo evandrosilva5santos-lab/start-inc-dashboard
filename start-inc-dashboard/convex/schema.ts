@@ -160,4 +160,11 @@ export default defineSchema({
         config: v.optional(v.string()),
         lastUpdated: v.number(),
     }).index("by_category", ["category"]).index("by_agent", ["agentId"]),
+    secrets: defineTable({
+        key: v.string(), // "GITHUB_PAT"
+        value: v.string(), // "ghp_..."
+        description: v.optional(v.string()),
+        category: v.optional(v.string()), // "auth", "api", "system"
+        lastUpdated: v.number(),
+    }).index("by_key", ["key"]),
 });

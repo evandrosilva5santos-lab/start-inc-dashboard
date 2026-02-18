@@ -10,6 +10,7 @@
 
 import type * as activities from "../activities.js";
 import type * as agents from "../agents.js";
+import type * as agents_dna from "../agents_dna.js";
 import type * as agents_status from "../agents_status.js";
 import type * as audit_agents from "../audit_agents.js";
 import type * as audit_check from "../audit_check.js";
@@ -38,6 +39,7 @@ import type * as setup_estrategico from "../setup_estrategico.js";
 import type * as setup_katy from "../setup_katy.js";
 import type * as setup_lazaro from "../setup_lazaro.js";
 import type * as setup_marechal from "../setup_marechal.js";
+import type * as setup_mission from "../setup_mission.js";
 import type * as setup_operacional_sargentos from "../setup_operacional_sargentos.js";
 import type * as setup_operacional_soldados from "../setup_operacional_soldados.js";
 import type * as setup_reforcos from "../setup_reforcos.js";
@@ -48,6 +50,7 @@ import type * as smart_merge from "../smart_merge.js";
 import type * as squad from "../squad.js";
 import type * as tasks from "../tasks.js";
 import type * as tiago_setup from "../tiago_setup.js";
+import type * as vault from "../vault.js";
 import type * as workspace from "../workspace.js";
 
 import type {
@@ -59,6 +62,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   activities: typeof activities;
   agents: typeof agents;
+  agents_dna: typeof agents_dna;
   agents_status: typeof agents_status;
   audit_agents: typeof audit_agents;
   audit_check: typeof audit_check;
@@ -87,6 +91,7 @@ declare const fullApi: ApiFromModules<{
   setup_katy: typeof setup_katy;
   setup_lazaro: typeof setup_lazaro;
   setup_marechal: typeof setup_marechal;
+  setup_mission: typeof setup_mission;
   setup_operacional_sargentos: typeof setup_operacional_sargentos;
   setup_operacional_soldados: typeof setup_operacional_soldados;
   setup_reforcos: typeof setup_reforcos;
@@ -97,6 +102,7 @@ declare const fullApi: ApiFromModules<{
   squad: typeof squad;
   tasks: typeof tasks;
   tiago_setup: typeof tiago_setup;
+  vault: typeof vault;
   workspace: typeof workspace;
 }>;
 

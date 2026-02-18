@@ -28,6 +28,7 @@ interface Agent {
   department?: string;
   soul?: string;
   systemPrompt?: string;
+  emoji?: string;
 }
 
 const CONVEX_URL = 'https://sincere-lynx-996.convex.cloud/api/run';
@@ -135,31 +136,28 @@ export default function MissionControlPage() {
         <div className="flex gap-2 mb-8 border-b border-slate-700/50 pb-px">
           <button
             onClick={() => setActiveTab('missions')}
-            className={`px-6 py-3 text-sm font-black uppercase tracking-wider transition-all ${
-              activeTab === 'missions'
-                ? 'text-indigo-400 border-b-2 border-indigo-400'
-                : 'text-slate-500 hover:text-slate-400'
-            }`}
+            className={`px-6 py-3 text-sm font-black uppercase tracking-wider transition-all ${activeTab === 'missions'
+              ? 'text-indigo-400 border-b-2 border-indigo-400'
+              : 'text-slate-500 hover:text-slate-400'
+              }`}
           >
             Missões Ativas
           </button>
           <button
             onClick={() => setActiveTab('neural')}
-            className={`px-6 py-3 text-sm font-black uppercase tracking-wider transition-all ${
-              activeTab === 'neural'
-                ? 'text-indigo-400 border-b-2 border-indigo-400'
-                : 'text-slate-500 hover:text-slate-400'
-            }`}
+            className={`px-6 py-3 text-sm font-black uppercase tracking-wider transition-all ${activeTab === 'neural'
+              ? 'text-indigo-400 border-b-2 border-indigo-400'
+              : 'text-slate-500 hover:text-slate-400'
+              }`}
           >
             Neural Matrix
           </button>
           <button
             onClick={() => setActiveTab('dna')}
-            className={`px-6 py-3 text-sm font-black uppercase tracking-wider transition-all ${
-              activeTab === 'dna'
-                ? 'text-indigo-400 border-b-2 border-indigo-400'
-                : 'text-slate-500 hover:text-slate-400'
-            }`}
+            className={`px-6 py-3 text-sm font-black uppercase tracking-wider transition-all ${activeTab === 'dna'
+              ? 'text-indigo-400 border-b-2 border-indigo-400'
+              : 'text-slate-500 hover:text-slate-400'
+              }`}
           >
             Agent DNA
           </button>
@@ -193,13 +191,12 @@ export default function MissionControlPage() {
                   >
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <h3 className="text-xl font-bold flex-1">{task.title}</h3>
-                      <span className={`px-3 py-1 rounded text-xs font-black uppercase ${
-                        task.priority === 'critical'
-                          ? 'bg-red-500/20 text-red-400'
-                          : task.priority === 'high'
+                      <span className={`px-3 py-1 rounded text-xs font-black uppercase ${task.priority === 'critical'
+                        ? 'bg-red-500/20 text-red-400'
+                        : task.priority === 'high'
                           ? 'bg-orange-500/20 text-orange-400'
                           : 'bg-yellow-500/20 text-yellow-400'
-                      }`}>
+                        }`}>
                         {task.priority}
                       </span>
                     </div>
@@ -332,7 +329,7 @@ export default function MissionControlPage() {
                     <button
                       onClick={() => {
                         if (editingAgent) {
-                          updateAgentSystemPrompt(editingAgent._id, editingAgent.soul || editingAgent.systemPrompt);
+                          updateAgentSystemPrompt(editingAgent._id, editingAgent.soul || editingAgent.systemPrompt || '');
                           setEditingAgent(null);
                         }
                       }}
