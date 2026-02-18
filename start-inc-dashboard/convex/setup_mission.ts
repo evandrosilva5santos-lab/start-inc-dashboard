@@ -1,6 +1,9 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+// MISSION PROTOCOL V2.0 - Optimized for Cloudflare Deployment
+
+
 export const seed = mutation({
     args: {},
     handler: async (ctx) => {
