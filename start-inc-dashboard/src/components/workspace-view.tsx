@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 import { File, Folder, FileText } from "lucide-react";
 
 export function WorkspaceView({ agentId }: { agentId: string }) {
-    const files = useQuery(api.workspace.listFiles, { agentId });
+    // const files = useQuery(api.workspace.listFiles, { agentId });
+    const files: any[] = []; // Fallback temporário
 
     if (!files) return <div className="text-slate-500 text-xs animate-pulse">Escaneando workspace...</div>;
     if (files.length === 0) return <div className="text-slate-500 text-xs italic">Nenhum arquivo detectado no workspace.</div>;
