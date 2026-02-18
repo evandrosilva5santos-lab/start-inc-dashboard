@@ -13,6 +13,8 @@ export type Agent = {
     competencies?: string;
     results?: string;
     department?: string;
+    creature?: string;
+    vibe?: string;
     motto?: string;
     status?: string;
     tribe?: string;
@@ -24,6 +26,27 @@ export type Agent = {
     site_url?: string;
     current_task?: string;
     last_active?: string;
+
+    // Novos campos de identidade (Convex Sync)
+    personality?: {
+        characteristics: string[];
+        speechStyle: string;
+        psychology: string;
+        tastes: string[];
+        secret?: string;
+    };
+    background?: {
+        region: string;
+        references: string[];
+        books: string[];
+        expertise: string[];
+    };
+    essence?: {
+        mission: string;
+        vision: string;
+        values: string[];
+    };
+    capabilities?: string[];
 };
 
 export type CandidateStatus = 'pool' | 'pre_selected' | 'rh_filter' | 'finalists' | 'approved';

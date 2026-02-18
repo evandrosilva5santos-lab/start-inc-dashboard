@@ -11,6 +11,7 @@ import { DirectorCard } from '@/components/dashboard/DirectorCard'
 import { MentorCard } from '@/components/dashboard/MentorCard'
 import { PowerGrid } from '@/components/dashboard/PowerGrid'
 import { AgentCard } from '@/components/dashboard/AgentCard'
+import { WorkspaceView } from '@/components/workspace-view'
 
 export default function Dashboard() {
   const [activeSection, setActiveSection] = useState<'grid' | 'squads' | 'mentors' | 'recruitment' | 'orgchart'>('grid')
@@ -453,6 +454,12 @@ export default function Dashboard() {
                   className="bg-slate-800/50 p-6 rounded-xl border-l-4 border-purple-500 backdrop-blur-sm"
                 >
                   <h4 className="text-purple-400 text-xs font-bold tracking-widest mb-3 uppercase">Identidade & Competências</h4>
+                  {modalData.type === 'agent' && modalData.data.motto && (
+                    <div className="mb-4 p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                      <span className="text-[10px] text-purple-400 font-bold uppercase tracking-wider block mb-1">Lema (Motto)</span>
+                      <p className="text-purple-100 italic font-medium">"{modalData.data.motto}"</p>
+                    </div>
+                  )}
                   <p className="text-slate-300 leading-relaxed text-sm whitespace-pre-wrap">
                     {modalData.type === 'candidate' ? (
                       <>
@@ -467,6 +474,118 @@ export default function Dashboard() {
                     )}
                   </p>
                 </motion.div>
+
+                {modalData.type === 'agent' && modalData.data.personality && (
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="bg-slate-800/30 p-6 rounded-xl border border-white/5 backdrop-blur-sm"
+                  >
+                    <h4 className="text-cyan-400 text-xs font-bold tracking-widest mb-3 uppercase">🧠 Psicologia & Estilo</h4>
+                    <div className="space-y-4 text-sm">
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Psicologia:</span>
+                        <p className="text-slate-200 leading-relaxed">{modalData.data.personality.psychology}</p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Estilo de Fala:</span>
+                          <p className="text-slate-200">{modalData.data.personality.speechStyle}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Gostos:</span>
+                          <p className="text-slate-200">{modalData.data.personality.tastes.join(", ")}</p>
+                        </div>
+                      </div>
+                      {modalData.data.personality.characteristics && (
+                        <div>
+                          <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Características:</span>
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {modalData.data.personality.characteristics.map((c: string) => (
+                              <span key={c} className="px-2 py-0.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded text-[10px]">{c}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+
+                {modalData.type === 'agent' && modalData.data.essence && (
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.45 }}
+                    className="bg-slate-800/30 p-6 rounded-xl border border-white/5 backdrop-blur-sm"
+                  >
+                    <h4 className="text-rose-400 text-xs font-bold tracking-widest mb-3 uppercase">✨ Missão & Essência</h4>
+                    <div className="space-y-4 text-sm">
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Missão Principal:</span>
+                        <p className="text-slate-200 leading-relaxed">{modalData.data.essence.mission}</p>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Visão Futura:</span>
+                        <p className="text-slate-200 leading-relaxed">{modalData.data.essence.vision}</p>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Valores:</span>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          {modalData.data.essence.values.map((v: string) => (
+                            <span key={v} className="px-2 py-0.5 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded text-[10px]">{v}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {modalData.type === 'agent' && modalData.data.background && (
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="bg-slate-800/30 p-6 rounded-xl border border-white/5 backdrop-blur-sm"
+                  >
+                    <h4 className="text-amber-400 text-xs font-bold tracking-widest mb-3 uppercase">📚 Referências & Background</h4>
+                    <div className="space-y-4 text-sm">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Referências:</span>
+                          <p className="text-slate-200">{modalData.data.background.references.join(", ")}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Região Local:</span>
+                          <p className="text-slate-200">{modalData.data.background.region}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Livros Prime:</span>
+                        <p className="text-slate-200 italic">{modalData.data.background.books.join(", ")}</p>
+                      </div>
+                      <div>
+                        <span className="text-slate-500 block text-[10px] uppercase font-bold mb-1">Expertise:</span>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          {modalData.data.background.expertise.map((e: string) => (
+                            <span key={e} className="px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded text-[10px]">{e}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {modalData.type === 'agent' && (
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                    className="bg-slate-900/50 p-6 rounded-xl border border-blue-500/20 backdrop-blur-md shadow-inner"
+                  >
+                    <WorkspaceView agentId={modalData.data.id} />
+                  </motion.div>
+                )}
               </div>
 
               <div className="mt-4 flex justify-between text-xs font-mono opacity-50">
