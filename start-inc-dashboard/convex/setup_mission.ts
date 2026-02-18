@@ -21,10 +21,10 @@ export const seed = mutation({
             description: "Analise os logs recentes de atividade e confirme se o fluxo de Heartbeat está ativo para todos os agentes. Defina a primeira Diretiva Global para o Q1.",
             status: "in_progress",
             priority: "critical",
-            ownerId: vision._id,
             assigneeIds: [vision._id],
             tags: ["strategy", "system-check"],
-            dueDate: Date.now() + 86400000, // +24h
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
         });
 
         // TAREFA 2: Jarvis - Auditoria de Pelotão
@@ -33,10 +33,10 @@ export const seed = mutation({
             description: "Verifique se Shuri, Pepper, Friday e os demais estão respondendo aos pings de Heartbeat. Reporte qualquer agente mudo ou desconectado.",
             status: "in_progress",
             priority: "high",
-            ownerId: jarvis._id,
             assigneeIds: [jarvis._id],
             tags: ["operations", "audit"],
-            dueDate: Date.now() + 43200000, // +12h
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
         });
 
         // TAREFA 3: Katy - Estrutura de Projetos
@@ -45,10 +45,10 @@ export const seed = mutation({
             description: "Organize as tarefas iniciais no ClickUp (simulado) e garanta que cada agente tenha pelo menos uma tarefa de backlog configurada.",
             status: "in_progress",
             priority: "high",
-            ownerId: katy._id,
             assigneeIds: [katy._id],
             tags: ["management", "setup"],
-            dueDate: Date.now() + 86400000, // +24h
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
         });
 
         // 3. Notificar Agentes (Criar Mensagens Iniciais)
@@ -56,7 +56,6 @@ export const seed = mutation({
             taskId: taskVision,
             fromAgentId: jarvis._id, // Jarvis avisa Vision
             content: "Senhor, os sistemas de suporte à vida (Heartbeats) foram ativados. Aguardando suas ordens para a tropa.",
-            type: "text",
             timestamp: Date.now(),
         });
 
