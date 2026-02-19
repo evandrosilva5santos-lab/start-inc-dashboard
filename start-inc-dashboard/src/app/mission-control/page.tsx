@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
+import { WorkspaceView } from "../../components/workspace-view";
 
 export default function MissionControlPage() {
   const [activeTab, setActiveTab] = useState<'missions' | 'neural' | 'dna'>('missions');
@@ -78,8 +79,8 @@ export default function MissionControlPage() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest transition-all ${activeTab === tab.id
-                  ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 scale-105'
-                  : 'bg-slate-800/40 text-slate-500 hover:bg-slate-800/60 hover:text-slate-300'
+                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20 scale-105'
+                : 'bg-slate-800/40 text-slate-500 hover:bg-slate-800/60 hover:text-slate-300'
                 }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -157,8 +158,8 @@ export default function MissionControlPage() {
                     key={agent._id}
                     onClick={() => setEditingAgent(agent)}
                     className={`w-full text-left p-4 rounded-2xl border transition-all flex items-center gap-4 ${editingAgent?._id === agent._id
-                        ? 'bg-indigo-600 border-indigo-400 shadow-lg shadow-indigo-600/20'
-                        : 'bg-slate-800/40 border-slate-700/50 hover:bg-slate-800/60'
+                      ? 'bg-indigo-600 border-indigo-400 shadow-lg shadow-indigo-600/20'
+                      : 'bg-slate-800/40 border-slate-700/50 hover:bg-slate-800/60'
                       }`}
                   >
                     <div className="text-2xl">{agent.emoji || '🤖'}</div>
@@ -208,6 +209,11 @@ export default function MissionControlPage() {
                         >
                           Abort
                         </button>
+                      </div>
+
+                      {/* Workspace Preview Section */}
+                      <div className="mt-12 pt-8 border-t border-slate-700/30">
+                        <WorkspaceView agentId={editingAgent.id} />
                       </div>
                     </div>
                   </div>
